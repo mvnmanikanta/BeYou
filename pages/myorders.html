@@ -1,0 +1,148 @@
+{% extends 'theme.html' %}
+{% block title %}My Orders{% endblock %}
+{% load static %}
+
+{% block main %}
+<style>
+    .order-header {
+        background-color: #f9f9f9;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .order-info {
+        background-color: #ffffff;
+        border: 1px solid #e6e6e6;
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+    .order-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #e6e6e6;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+    .order-id {
+        background-color: #f0f0f0;
+        padding: 5px 10px;
+        border-radius: 100px;
+        font-weight: bold;
+        margin-left: 10px;
+        margin-right: auto;
+    }
+    .order-status {
+        margin-right: 25px;
+        color: #ff9800;
+        font-weight: bold;
+    }
+    .order-placed {
+        margin-right: 400px;
+    }
+    .product-details {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    .product-image {
+        flex: 0 0 100px;
+        margin: 0 15px;
+    }
+    .product-image img {
+        height: 100px;
+        width: auto;
+        max-width: 100%;
+    }
+    .product-info {
+        flex: 1;
+    }
+    .product-name {
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .product-quantity {
+        font-size: 14px;
+        color: #555;
+    }
+    .total-price {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        margin-right: 25px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #000;
+    }
+    .order-info a {
+        text-decoration: none;
+        color: inherit;
+    }
+    .btn {
+        padding: 8px 12px;
+        margin-right: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+    }
+    .btn.cancel {
+        background-color: #dc3545;
+    }
+    .message {
+        color: #dc3545;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="order-header">
+        <h4>My Orders</h4>
+    </div>
+
+    {% if orders %}
+        {% for order in orders %}
+            <div class="order-info">
+                <div class="order-details">
+                    <div class="order-id">
+                        <a href="{% url 'order_detail' order.id %}">Order {{ order.id }}
+                    </div>
+                    <small class="order-placed"> Order Placed: {{ order.created_at|date:"D, d M Y" }}</small>     
+                    Status <small class="order-status">{{ order.status }}</small>
+                </div>
+                <div class="row">
+                    {% for item in order.items.all %}
+                        <div class="col-12">
+                            <div class="product-details">
+                                <div class="product-image mt-2">
+                                    <img src="{{ item.get_image }}" alt="{{ item.product.name }}" class="img-fluid"/>
+                                </div>
+                                <div class="product-info mt-3">
+                                    <p class="product-name">{{ item.product.name }}</p>
+                                    <p class="product-quantity">Quantity: {{ item.quantity }}</p>
+                                    <p class="product-quantity">Price: ₹ {{ item.price }}</p> 
+                                    {% if item.is_canceled %}
+                                        <p class="message">This product has been canceled.</p>
+                                    {% elif item.is_returned %}
+                                        <p class="message">This product has been marked for return.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <p class="total-price">Total Amount: ₹{{ order.pre_tax_total|floatformat:2 }}</p>
+            </a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You have no orders yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

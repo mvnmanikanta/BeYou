@@ -1,0 +1,225 @@
+{% extends 'theme.html' %}
+{% block title %}Product Details{% endblock title %}
+{% load static %}
+{% block main %}
+<style>
+    .product-images {
+        height: 560px;
+        width: 400px;
+    }
+    .product-images img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .small-images {
+        display: flex;
+        flex-direction: column;
+        height: 400px;
+        overflow: hidden;
+    }
+    .small-images img {
+        width: 60px;
+        margin-bottom: 5px;  /* Reduced gap between small images */
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+    .small-images img.active {
+        border: 2px solid #000;
+    }
+    .slider-button {
+        background-color: transparent;
+        border: none;
+        font-size: 20px;
+        color: #000;
+        cursor: pointer;
+    }
+    .slider-button:disabled {
+        color: lightgrey;
+    }
+    .product-image-section {
+        margin-bottom: 0;  /* Reduced gap between image and details */
+    }
+    .price {
+        font-size: 24px;
+        font-weight: bold;
+    }
+    .discount-price {
+        color: green;
+    }
+    .size-chart {
+        margin-left: 10px;
+        font-size: 12px;
+        color: grey;
+        cursor: pointer;
+    }
+    .discount-codes {
+        margin-bottom: 20px;
+    }
+    .similar-products img {
+        width: 100px;
+        margin: 5px;
+    }
+    /* Star rating styles */
+    .star-rating {
+        direction: rtl;
+        display: inline-block;
+        font-size: 2rem;
+        cursor: pointer;
+    }
+    .star-rating input {
+        display: none;
+    }
+    .star-rating label {
+        color: #ddd;
+        font-size: 2rem;
+        cursor: pointer;
+        transition: color 0.2s ease-in-out;
+    }
+    .star-rating input:checked ~ label {
+        color: gold;
+    }
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+        color: gold;
+    }
+    .color-circle {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%; /* Makes it circular */
+        border: 2px solid transparent; /* Default border */
+        cursor: pointer;
+    }
+    .color-circle.active {
+        border: 2px solid #000; /* Highlight active color */
+    }
+
+</style>
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <!-- Product Images -->
+        <div class="col-md-6 product-image-section">
+            <div class="d-flex">
+                <!-- Image Slider -->
+                <div class="d-flex flex-column align-items-center me-3">
+                    <div class="small-images" id="smallImages">
+                        <div><img src="{{ p.image.url }}" alt="Main Product Image" class="img-thumbnail" onclick="changeMainImage('{{ p.image.url }}', this)"></div>
+                        {% for image in images %}
+                            <img src="{{ image.image.url }}" alt="Product Image" class="img-thumbnail" onclick="changeMainImage('{{ image.image.url }}', this)">
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- Main Image -->
+                <div class="product-images">
+                    <img src="{{ p.image.url }}" alt="Main Product Image" id="mainProductImage">
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-6">
+            <h2>{{ p.name }}</h2>
+            <p class="price">₹{{ p.price }}</p>
+            <h4>Description:</h4>
+            <p>{{ p.desciption }}</p>
+            
+            <!-- Size Options -->
+            {% if p %}
+    <div class="mb-4">
+        <p>Size:</p>
+        <div class="btn-group" role="group" id="size-selection">
+            <input type="radio" class="btn-check" name="size" id="sizeS" value="S" autocomplete="off" required>
+            <label class="btn btn-outline-dark" for="sizeS">S</label>
+            
+            <input type="radio" class="btn-check" name="size" id="sizeM" value="M" autocomplete="off" required>
+            <label class="btn btn-outline-dark" for="sizeM">M</label>
+            
+            <input type="radio" class="btn-check" name="size" id="sizeL" value="L" autocomplete="off" required>
+            <label class="btn btn-outline-dark" for="sizeL">L</label>
+            
+            <input type="radio" class="btn-check" name="size" id="sizeXL" value="XL" autocomplete="off" required>
+            <label class="btn btn-outline-dark" for="sizeXL">XL</label>
+            
+            <input type="radio" class="btn-check" name="size" id="sizeXXL" value="XXL" autocomplete="off" required>
+            <label class="btn btn-outline-dark" for="sizeXXL">XXL</label>
+        </div>
+        <a href="#" class="size-chart">Size Chart</a>
+    </div>
+
+    <!-- Action Buttons -->
+    <form action="{% url 'addtocart' %}" method="post" id="add-to-cart-form">
+        {% csrf_token %}
+        <input type="hidden" name="product_id" value="{{ p.id }}">
+        <button class="btn btn-dark" type="submit" id="add-to-cart-button" disabled>Add to Cart</button>
+    </form>
+
+    <script>
+        // Get all radio buttons and the button
+        const sizeRadios = document.querySelectorAll('input[name="size"]');
+        const addToCartButton = document.getElementById('add-to-cart-button');
+
+        // Add event listener to each radio button
+        sizeRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Enable the button if a size is selected
+                addToCartButton.disabled = false;
+            });
+        });
+    </script>
+{% else %}
+    <p>Product not found.</p>
+{% endif %}
+
+        </div>
+    </div>
+<!-- Custom JS for Image Slider -->
+<script>
+    let scrollPosition = 0;
+    const smallImages = document.getElementById('smallImages');
+    const upButton = document.getElementById('upButton');
+    const downButton = document.getElementById('downButton');
+    const mainImage = document.getElementById('mainProductImage');
+
+    // Scroll images up
+    upButton.addEventListener('click', () => {
+        scrollPosition = Math.max(scrollPosition - 60, 0);
+        smallImages.scrollTop = scrollPosition;
+        updateButtonState();
+    });
+
+    // Scroll images down
+    downButton.addEventListener('click', () => {
+        scrollPosition = Math.min(scrollPosition + 60, smallImages.scrollHeight - smallImages.clientHeight);
+        smallImages.scrollTop = scrollPosition;
+        updateButtonState();
+    });
+
+    // Disable/enable buttons based on scroll position
+    function updateButtonState() {
+        upButton.disabled = scrollPosition === 0;
+        downButton.disabled = scrollPosition >= smallImages.scrollHeight - smallImages.clientHeight;
+    }
+
+    // Change the main image and highlight the clicked thumbnail
+    function changeMainImage(imageSrc, element) {
+        mainImage.src = imageSrc;
+        
+        // Remove 'active' class from all thumbnails
+        const thumbnails = smallImages.getElementsByTagName('img');
+        for (let i = 0; i < thumbnails.length; i++) {
+            thumbnails[i].classList.remove('active');
+        }
+
+        // Add 'active' class to the clicked thumbnail
+        element.classList.add('active');
+    }
+
+    // Initialize the first thumbnail as active
+    if (smallImages.getElementsByTagName('img').length > 0) {
+        smallImages.getElementsByTagName('img')[0].classList.add('active');
+    }
+
+</script>
+
+{% endblock %}

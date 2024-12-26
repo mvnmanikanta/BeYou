@@ -1,0 +1,60 @@
+{% load static %}
+
+{% block main %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+<link rel="stylesheet" href="{% static 'fontawesome-free-6.6.0-web/css/all.min.css' %}">
+
+<style>
+    body {
+      background-color: #f8f9fa;
+      border: none;
+    }
+    .modal-content {
+      background-color: #ffffff;
+      border: 1px solid #000000;
+      color: #000000;
+      border: none;
+    }
+    .icon-circle {
+      width: 60px;
+      height: 60px;
+      background-color: #000000;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto;
+    }
+    .icon-circle .checkmark {
+      font-weight:900;
+      color: white;
+      font-size: 24px;
+    }
+    .modal-footer .btn-dark {
+      background-color: #000000;
+      border: #000000;
+    }
+    .modal-footer .continue {
+      border: 1px soli black;
+      background-color: #868686;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="modal-content text-center p-4">
+    <div class="icon-circle">
+      <span class="checkmark">&#10003;</span>
+    </div>
+    <h4>Thank you for ordering!</h4>
+    <p class="mb-4">Your order has been placedsuccessfully.</p>
+    <div class="modal-footer d-flex justify-content-center">
+      <a href="{% url 'myorders' %}" type="button" class="btn btn-dark">View Order</a>
+      <a href="/" type="button" class="btn btn-dark continue ">Continue Shopping</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'theme.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+{% block main %}
+<head>
+ <style>
+        .profilename{
+            display: flex;
+            align-items: center;
+        }
+        .profile-image {
+    width: 100px; /* Circular container width */
+    height: 100px; /* Circular container height */
+    border-radius: 50%; /* Make the container a circle */
+    overflow: hidden; /* Clip overflow content */
+    display: flex; /* Center content horizontally */
+    justify-content: center;
+    align-items: center; /* Center content vertically */
+    margin: 10px;
+    margin-right: 20px;
+    cursor: pointer; /* Indicate clickability */
+}
+
+.profile-image img {
+    width: 100%; /* Fill the container */
+    height: 100%; /* Fill the container */
+    object-fit: cover; /* Ensure the image covers the circle */
+    border-radius: 50%; /* Ensure the image itself is circular */
+}
+
+        .sidebar {
+            height: 100vh;
+            background-color: #f8f9fb; /* Light gray background */
+            padding-top: 30px;
+            border-right: 1px solid #dee2e6; /* Border color */
+        }
+        
+        .sidebar .nav-link {
+            color: #000000; /* Dark gray text color */
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #000000; /* Darker gray on hover */
+            border-radius: 5px;
+            color: white;
+        }
+
+        .sidebar .nav-link:active {
+            background-color: #000000; /* Lighter gray on active */
+        }
+        .nav-link i{
+            margin-right: 15px;
+        }
+        .col-md-9{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <p>Profile</p>
+                <hr>
+                <div class="profilename">
+                    <div class="profile-image">
+                        <label for="profile_image_input">
+                            {% if profile.profile_image %}
+                            <img id="profile_preview" src="{{ profile.profile_image.url }}" alt="Profile Image">
+                            {% else %}
+                            <img id="profile_preview" src="{% static 'default_profile.png' %}" alt="Default Profile Image">
+                            {% endif %}
+                        </label>
+                        <!-- Hidden file input for image upload -->
+                        <input 
+                            type="file" 
+                            id="profile_image_input" 
+                            name="profile_image" 
+                            accept="image/*" 
+                            style="display: none;" 
+                            onchange="previewImage(event)">
+                    </div>
+                    
+                    <h5 id="profile-name">{{user.username}}</h5>
+                </div>
+                <div class="sidetext">
+                <ul class="nav flex-column mt-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'userprofile' %}" id="my-profile"><i class="fa-solid fa-user"></i> My Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'myorders' %}" id="my-orders"><i class="fa-solid fa-box-open"></i>My Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contactus' %}" id="contact-us"><i class="fa-solid fa-phone"></i> contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'aboutus' %}" id="about-beyou"><i class="fa fa-info-circle"></i> About BeYou</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}" id="logout"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+                    </li>
+                </ul>
+            </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="col-md-9 mt-3">
+                <div id="content-area">
+                    <h2>Welcome to Be You.</h2>
+                    <p>Purchase your favourite collections.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

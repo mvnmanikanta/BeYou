@@ -1,0 +1,163 @@
+{% extends 'theme.html' %}
+{% block title %}My Orders{% endblock %}
+{% load static %}
+
+{% block main %}
+<style>
+    .back {
+        background-color: #fff;
+        border: 1px solid black;
+        width: 50px;
+        height: 35px;
+        border-radius: 3px;
+    }
+    .back:hover {
+        background-color: black;
+        color: #fff;
+    }
+    .order-id {
+        display: flex;
+        align-items: column;
+        justify-content: center;
+        background-color: gainsboro;
+        width: 150px;
+        padding-top: 10px;
+        margin-left: 10px;
+        border-radius: 100px;
+    }
+    .oid{
+        padding-left: 10px;
+        color: #ff9800;
+    }
+
+    .track_order {
+        text-decoration: none;
+        border: 1px solid black; 
+        background-color: black;
+        color: #fff;
+        width: 150px;
+        padding: 10px;
+        padding-left: 35px;
+        border-radius: 5px;
+    }
+    .track_order:hover {
+        color: black;
+        background-color: #fff;
+    }
+    .gst {
+        font-size: small;
+        font-weight: lighter;
+    }
+</style>
+<div class="container mt-5">
+    <!-- Back Button -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <button class="back" onclick="window.history.back()"><i class="fa-solid fa-arrow-left"></i></button>
+        <!-- Order Actions -->
+        <a href="{% url 'track_order' %}" class="track_order">Track Order</a>
+    </div>
+
+    <!-- Order Info -->
+    <div class="card mt-4 mb-4">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center mb-4 mt-4">
+                <h5 class="order-id">Oredr ID<p class="oid">{{ order.id }}</p></h5>
+                <p class="Placed-on">Placed On: {{ order.created_at|date:"D, d M Y" }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer & Shipping Info -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h6>Customer & Order</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Name:</strong> {{ order.first_name }} {{ order.last_name }}</p>
+                    <p><strong>Email:</strong> {{ order.email }}</p>
+                    <p><strong>Phone:</strong> {{ order.phone }}</p>
+                    <p><strong>Tracking Number:</strong> {{ order.tracking_number }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h6>Shipping & Billing Address</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Address:</strong></p>
+                    <p>{{ order.first_name }} {{ order.last_name }}</p>
+                    <p>{{ order.address }}</p>
+                    <p>{{ order.city }}, {{ order.state }}, {{ order.pin_code }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Items Ordered -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h6>Products Ordered</h6>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items_with_totals %}
+                    <tr>
+                        <td>
+                            {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="height: 100px;">
+                            {% else %}
+                                <img src="{% static 'path/to/default/image.png' %}" alt="Default Image" style="height: 100px;">
+                            {% endif %}
+                            {{ item.product.name }}
+                        </td>
+                        <td>{{ item.quantity }}</td>
+                        <td>₹ {{ item.price|floatformat:2 }}</td>
+                        <td>₹ {{ item.total|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="card mt-4 mb-4">
+        <div class="card-header">
+            <h6>Order Summary</h6>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <p><strong>Subtotal:</strong></p>
+                <p>₹ {{ order.total_amount|floatformat:2 }}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p><strong>Discount:</strong></p>
+                <p>₹ {{ order.discount|floatformat:2 }}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p><strong>Shipping Cost:</strong></p>
+                <p>₹ {{ order.shipping_cost|floatformat:2 }}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <h5><strong>Total <small class="gst">(Inc.GST)</small></strong></h5>
+                <h5>₹ {{ order.pre_tax_total|floatformat:2 }}</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

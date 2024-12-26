@@ -1,0 +1,42 @@
+{% extends 'theme.html' %}
+{% block title %}Login{% endblock title %}
+{% block main %}
+
+{% load static %}
+<style>
+    .register a{
+        text-decoration: none;
+    }
+    .forgot{
+        color: purple;
+    }
+</style>
+<div class="container d-flex justify-content-center mt-5">
+    <div class="col-md-4 mb-5"> <!-- Form position change col md 5 -->
+        <h2 class="text-center mb-5">Login</h2>
+        {% for message in messages %}
+        <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+        <form action="{% url 'login' %}" method="post" style="max-width: 500px; margin-bottom:37.5%;">
+            {% csrf_token %}
+            <div class="mb-4">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Username" required>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-dark w-100" style="max-width: 500px;">Login</button>
+            <div class="register mt-2">
+                <p>I don't have an account <a href="{% url 'register' %}">Register</a></p><p>Forgot password</p>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

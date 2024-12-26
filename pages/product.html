@@ -1,0 +1,44 @@
+{% extends  'theme.html' %}
+{% block title %}Products{% endblock title %}
+{% load static %}
+{%block main%}
+
+<!--dropdown-->
+<div class="py-2" style="background-color: #fff; width: 100%; position: fixed;">
+  <div class="dropdown mt-3">
+    <button class="dropdown-toggle" style="background:none; border: none; margin-left: 15px;" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+      categories
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="{% url 'product' %}">All Products</a></li>
+      {% for j in categories %}
+      <li><a class="dropdown-item" href="/product/?category={{j.id}}">{{j.name}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+<!--Products-->
+<div class="container mt-5">
+  <div class="row">
+<!-- Inside product.html or similar template -->
+{% for j in products %}
+<div class="col-md-3 col-sm-6 col-xs-6 mb-5">
+    <div class="product product-single">
+        <a href="{% url 'productdetail' j.id %}">
+            <div class="product-thumb">
+                <img src="{{ j.image.url }}" class="card-img-top" alt="{{ j.name }}">
+            </div>
+        </a>
+        <div class="product-body">
+            <h5 class="card-title mt-2">{{ j.name }}</h5>
+            <p class="card-text mt-2">₹ {{ j.price }}</p>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+    </div>
+  </div>
+</div>    
+
+{%endblock%}

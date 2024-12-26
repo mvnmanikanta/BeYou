@@ -1,0 +1,146 @@
+{% extends 'theme.html' %}
+{% block title %}Contact Us{% endblock %}
+{% load static %}
+
+{% block main %}
+<style>
+body {
+    font-family: Arial, sans-serif;
+}
+
+.contact-banner {
+    background-color: #f0f9f0;
+    text-align: center;
+    padding: 50px;
+    background-image: url('bread_banner.jpg'); /* Replace with actual banner image URL */
+    background-size: cover;
+    background-position: center;
+}
+
+.contact-banner h1 {
+    font-size: 3rem;
+    color: #222;
+}
+
+.contact-banner p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.contact-boxes .box {
+    background-color: #fff9f0;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px; /* Ensuring all boxes are of the same height */
+}
+
+.contact-boxes .box:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.contact-boxes .box a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.contact-boxes .box i {
+    font-size: 2rem;
+    color: #482524;
+    margin-bottom: 15px;
+}
+
+.form-control, .btn {
+    border-radius: 30px;
+}
+
+.btn {
+    background-color: #482524;
+    color: #fff;
+}
+
+.btn:hover {
+    background-color: #7B5452;
+    color: #fff;
+}
+.col-md-6{
+    margin-left: 100px;
+}
+</style>
+
+<!-- Banner Section -->
+<div class="contact-banner">
+<h1>Contact Us</h1>
+<p>Be You is a Men's online clothing website</p>
+</div>
+
+<!-- Contact Boxes and Form Section -->
+<div class="container my-5">
+<div class="row">
+    <!-- Contact Boxes -->
+    <div class="col-md-5 mt-3">
+        <div class="row contact-boxes">
+            <div class="col-6 mb-2">
+                <div class="box">
+                    <a href="tel:9666666666">
+                        <i class="fa regular fa-phone"></i>
+                        <h5>Phone</h5>
+                        <p>9666666666</p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-6 mb-4">
+                <div class="box">
+                    <a href="https://wa.me/9666666666">
+                        <i class="fa-brands fa-square-whatsapp"></i>
+                        <h5>WhatsApp</h5>
+                        <p>9666666666</p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-6 mb-4">
+                <div class="box">
+                    <a href="mailto:beyou@gmail.com">
+                        <i class="fa-solid fa-envelope"></i>
+                        <h5>Email</h5>
+                        <p>beyou@gmail.com</p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-6 mb-4">
+                <div class="box">
+                    <a href="https://www.google.com">
+                        <i class="fa-brands fa-square-instagram"></i>
+                        <h5>Instagram</h5>
+                        <p>@beyou.co.in</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="col-md-6">
+        <h4 class="d-flex justify-content-center mb-3">Get In Touch</h4>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input name="name" type="text" class="form-control" placeholder="Name" required>
+            </div>
+            <div class="mb-3">
+                <input name="email" type="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="mb-3">
+                <textarea name="subject" class="form-control" rows="5" placeholder="Message" required></textarea>
+            </div>
+            <button type="submit" class="btn w-100">Send Now</button>
+        </form>
+    </div>
+</div>
+</div>
+{% endblock %}

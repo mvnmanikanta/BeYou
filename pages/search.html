@@ -1,0 +1,15 @@
+{% extends 'theme.html' %}
+{% block title %}Search Results{% endblock title %}
+{% load static %}
+
+{% block main %}
+
+    {% if products %}
+        {{ search }}
+            {% for product in products %}
+                <div>{{ product.name }}</div>
+            {% endfor %}
+        {% else %}
+            <p>No products found for "{{ search }}"</p>
+     {% endif %}
+{% endblock %}

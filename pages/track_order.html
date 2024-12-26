@@ -1,0 +1,42 @@
+{% extends 'theme.html' %}
+{% block title %}My Orders{% endblock %}
+{% load static %}
+
+{% block main %}
+<style>
+    .form-control {
+        width: 60%;
+    }
+    .form-group{
+        display: flex;
+        align-items: center;
+    }
+    .track {
+        margin-left: 10px;
+    } 
+</style>
+<div class="container mt-5">
+    <div class="card mt-4 mb-4">
+        <div class="card-header">
+            <h1 class="mb-4">Track Your Order</h1>
+            <form method="get" action="{% url 'track_order' %}" class="mb-4" id="trackForm">
+                <small for="tracking_number" class="mt-2">Enter Your Tracking Number:</small>
+                <div class="form-group">
+                    <input type="text" name="tracking_number" id="tracking_number" class="form-control mt-3" required>
+                    <button type="submit" class="track btn btn-dark mt-3">Track</button>
+                </div>
+            </form>
+            {% if tracking_info %}
+            <h2>Tracking Information</h2>
+            <p><strong>Order Status:</strong> {{ tracking_info.status }}</p>
+            <p><strong>Estimated Delivery:</strong> {{ tracking_info.estimated_delivery }}</p>
+            <p><strong>Current Location:</strong> {{ tracking_info.current_location }}</p>
+            {% else %}
+            <div id="error-message" class="alert alert-danger">No tracking information found. Please check your tracking number.</div>
+            {% endif %}
+        </div>
+    </div>
+    <a href="{% url 'home' %}" class="btn btn-dark mt-3 mb-4">Back to Home</a>
+</div>
+
+{% endblock %}

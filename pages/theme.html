@@ -1,0 +1,270 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Be you | {% block title %} {% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome-free-6.6.0-web/css/all.min.css' %}">
+    <!-- jquery -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
+    <script>
+          var availableTags = [];
+
+          $.ajax({
+            method:"GET",
+            url:"/search",
+            success:function(response){
+                console.log(response);
+            }
+          });
+            
+          $( "#searchproducts" ).autocomplete({
+            source: availableTags
+          });
+        </script>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1;
+        }
+        .logo{
+            width: 100px;
+        }
+        .mt-2 {
+        margin-top: 1rem;
+    }
+
+    .px-1 {
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
+
+    .form-inline {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .input-group {
+        flex: 1;
+        position: relative;
+    }
+    .nav-item{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .nav-link:hover{
+        color:#747373;
+    }
+    .nav-item:hover .nav-link {
+    color:#747373; /* Change text color to red on hover */
+    }
+
+    .search-input {
+        height: 35px;
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #747373;
+        border-radius: 5px 0px 0px 5px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+
+    .search-input:focus {
+        border-color: #000000;
+        outline: none;
+    }
+
+    .search {
+        height: 35px;
+        background-color: #000000;
+        border: 1px solid #000000;
+        border-radius: 0px 5px 5px 0px;
+        color: white;
+        padding: 5px 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .search:hover {
+        background-color:#747373;
+    }
+
+    .fa-search {
+        font-size: 16px;
+    }
+
+    <!--Footer-->
+    .footer {
+      background-color: #f9f9f9;
+      padding: 20px 0;
+    }
+    .footer a {
+      text-decoration: none;
+      color: #fff;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    .social-icons a {
+      margin-right: 15px;
+    }
+    .footer .section-title {
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .mar{
+        margin-left: 30px;
+    }
+    </style>
+</head>
+<body>
+    <section style="background-color: #fff;">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col">
+                    <!--start-->              
+                    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+                        <div class="container-fluid d-flex align-items-center">
+                            <!--Centering the logo-->
+                            <a class="navbar-brand" style="position: absolute; left: 50%; transform: translateX(-50%);" href="#"><img src="{% static 'logo/BUlogo.png' %}" class="logo"></a>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                    <!--Home-->
+                                    <li class="nav-item">
+                                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                                    </li>
+                                    <!--Products-->
+                                    <li class="nav-item ms-2">
+                                        <a class="nav-link active" aria-current="page" href="{% url 'product' %}">Products</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="mt-2 px-1">
+                                <form class="form-inline d-flex" action="" method="post">
+                                    {% csrf_token %}
+                                    <div class="input-group">
+                                        <input name="search" class="input search-input" id="searchproducts" type="text" placeholder="Search...">
+                                    </div>
+                                    <button class="search" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                {% if user.is_authenticated %}
+                                    <li class="nav-item ms-3">
+                                        <a class="nav-link" href="{% url 'profile'%}"><i class="fa-regular fa-user"></i></a>
+                                    </li>
+                                    <li class="nav-item ms-3">
+                                        <a class="nav-link" href="{% url 'showcart' %}"><i class="fa-solid fa-cart-shopping"></i></a>
+                                    </li>
+                                    <!--<li class="nav-item">
+                                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                                    </li>-->
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="content">
+        {% block main %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container text-center">
+            <div class="footer">
+                <div class="container">
+                  <div class="row text-center text-md-start">
+                    <!-- Logo -->
+                    <div class="col-md-3 mb-4">
+                        <a href="#">    
+                            <h5 class="section-title"><img src="{% static 'logo/BU2.png' %}" class="logo mar"></h5>
+                        </a>
+                        <!-- Signup and Social Icons -->
+                        <div class="row mt-4">
+                            <div class="mt-4 ">
+                              <div class="social-icons">
+                                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+              
+                    <!-- Get to Know Us -->
+                    <div class="col-md-3 mb-4">
+                      <h5 class="section-title">GET TO KNOW US</h5>
+                      <ul class="list-unstyled">
+                        <li><a href="{% url 'contactus' %}">Contact Us</a></li>
+                        <li><a href="#">FAQ's</a></li>
+                        <li><a href="#">Blogs</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                      </ul>
+                    </div>
+              
+                    <!-- Track or Return/Exchange Order -->
+                    <div class="col-md-3 mb-4">
+                      <h5 class="section-title">TRACK ORDER</h5>
+                      <ul class="list-unstyled">
+                        <li><a href="{% url 'track_order' %}">Track Order</a></li>
+                      </ul>
+                    </div>
+              
+                    <!-- Customer Care -->
+                    <div class="col-md-3 mb-4">
+                      <h5 class="section-title">CUSTOMER CARE</h5>
+                      <ul class="list-unstyled">
+                        <li>Timings: 10 AM - 7 PM (Mon - Sat)</li>
+                        <li>Email: <a href="#">beyou@gmail.com</a></li>
+                        <li>Instagram: <a href="#">@beyou.co.in</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+              
+                  <!-- Footer Bottom -->
+                  <div class="row mt-4">
+                    <div class="col text-center">
+                      <p>© 2024 BEYOU</p>
+                      <p>Made in India, for the World 🌍</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+        </div>
+    </footer>
+    
+    <!-- bootstrap script -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
