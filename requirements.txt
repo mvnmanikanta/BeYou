@@ -6,4 +6,4 @@ javascript
 bootstrap
 jquery
 fontawesome
-
+gunicorn
