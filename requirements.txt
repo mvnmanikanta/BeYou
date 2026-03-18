@@ -1,0 +1,9 @@
+python
+django
+html
+css
+javascript
+bootstrap
+jquery
+fontawesome
+
