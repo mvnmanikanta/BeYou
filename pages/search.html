@@ -1,15 +1,115 @@
 {% extends 'theme.html' %}
-{% block title %}Search Results{% endblock title %}
+{% block title %}Search Results{% endblock %}
 {% load static %}
 
 {% block main %}
 
+<style>
+    .search-results-wrapper {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .search-product-card {
+        width: 100%;
+        height: 100%;
+    }
+
+    .search-product-card img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .search-product-card .card-body {
+        text-align: center;
+    }
+
+    .search-product-card h5 {
+        font-size: 1rem;
+        line-height: 1.4;
+        margin-bottom: 10px;
+        word-break: break-word;
+    }
+
+    .search-product-card p {
+        font-size: 0.95rem;
+        margin-bottom: 0;
+        word-break: break-word;
+    }
+
+    @media (max-width: 991.98px) {
+        .search-results-wrapper {
+            margin-top: 2rem !important;
+            margin-bottom: 2rem !important;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .search-product-card h5 {
+            font-size: 0.95rem;
+        }
+
+        .search-product-card p {
+            font-size: 0.9rem;
+        }
+
+        .row.g-4 {
+            --bs-gutter-x: 1rem;
+            --bs-gutter-y: 1rem;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .search-results-wrapper {
+            margin-top: 1.5rem !important;
+            margin-bottom: 1.5rem !important;
+        }
+
+        .search-product-card h5 {
+            font-size: 0.9rem;
+        }
+
+        .search-product-card p {
+            font-size: 0.85rem;
+        }
+    }
+</style>
+
+<div class="container mt-5 mb-5 search-results-wrapper">
+
     {% if products %}
-        {{ search }}
-            {% for product in products %}
-                <div>{{ product.name }}</div>
-            {% endfor %}
-        {% else %}
-            <p>No products found for "{{ search }}"</p>
-     {% endif %}
+    <div class="row g-4">
+
+        {% for product in products %}
+        <div class="col-6 col-md-4 col-lg-3">
+
+            <a href="{% url 'productdetail' product.id %}" style="text-decoration:none; color:black;">
+
+                <div class="card h-100 shadow-sm search-product-card">
+
+                    <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+
+                    <div class="card-body text-center">
+                        <h5>{{ product.name }}</h5>
+                        <p>₹ {{ product.price }}</p>
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <p>No products found for "{{ query }}"</p>
+
+    {% endif %}
+
+</div>
+
 {% endblock %}

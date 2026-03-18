@@ -7,127 +7,345 @@
     <title>Be you | {% block title %} {% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'fontawesome-free-6.6.0-web/css/all.min.css' %}">
+    
     <!-- jquery -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 
     <script>
-          var availableTags = [];
+        var availableTags = [];
 
-          $.ajax({
+        $.ajax({
             method:"GET",
             url:"/search",
             success:function(response){
                 console.log(response);
             }
-          });
+        });
             
-          $( "#searchproducts" ).autocomplete({
+        $( "#searchproducts" ).autocomplete({
             source: availableTags
-          });
-        </script>
+        });
+    </script>
 
     <style>
         html, body {
             height: 100%;
             margin: 0;
+            overflow-x: hidden;
         }
+
         body {
             display: flex;
             flex-direction: column;
         }
+
         .content {
             flex: 1;
         }
+
         .logo{
             width: 100px;
+            max-width: 100%;
+            height: auto;
         }
+
         .mt-2 {
-        margin-top: 1rem;
-    }
+            margin-top: 1rem;
+        }
 
-    .px-1 {
-        padding-left: 0.25rem;
-        padding-right: 0.25rem;
-    }
+        .px-1 {
+            padding-left: 0.25rem;
+            padding-right: 0.25rem;
+        }
 
-    .form-inline {
-        display: flex;
-        align-items: center;
-        width: 100%;
-    }
+        .form-inline {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
 
-    .input-group {
-        flex: 1;
-        position: relative;
-    }
-    .nav-item{
-        font-family: Arial, Helvetica, sans-serif;
-    }
-    .nav-link:hover{
-        color:#747373;
-    }
-    .nav-item:hover .nav-link {
-    color:#747373; /* Change text color to red on hover */
-    }
+        .input-group {
+            flex: 1;
+            position: relative;
+            min-width: 0;
+        }
 
-    .search-input {
-        height: 35px;
-        width: 100%;
-        padding: 10px 15px;
-        border: 1px solid #747373;
-        border-radius: 5px 0px 0px 5px;
-        font-size: 16px;
-        transition: border-color 0.3s ease;
-    }
+        .navbar{
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+            padding: 10px 15px;
+            background-color: #fff !important;
+        }
 
-    .search-input:focus {
-        border-color: #000000;
-        outline: none;
-    }
+        .nav-item{
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
-    .search {
-        height: 35px;
-        background-color: #000000;
-        border: 1px solid #000000;
-        border-radius: 0px 5px 5px 0px;
-        color: white;
-        padding: 5px 15px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+        .nav-link:hover{
+            color:#747373;
+        }
 
-    .search:hover {
-        background-color:#747373;
-    }
+        .nav-item:hover .nav-link {
+            color:#747373;
+        }
 
-    .fa-search {
-        font-size: 16px;
-    }
+        .search-input {
+            height: 35px;
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #747373;
+            border-radius: 5px 0px 0px 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
 
-    <!--Footer-->
-    .footer {
-      background-color: #f9f9f9;
-      padding: 20px 0;
-    }
-    .footer a {
-      text-decoration: none;
-      color: #fff;
-    }
-    .footer a:hover {
-      text-decoration: underline;
-    }
-    .social-icons a {
-      margin-right: 15px;
-    }
-    .footer .section-title {
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-    .mar{
-        margin-left: 30px;
-    }
+        .search-input:focus {
+            border-color: #000000;
+            outline: none;
+        }
+
+        .search {
+            height: 35px;
+            background-color: #000000;
+            border: 1px solid #000000;
+            border-radius: 0px 5px 5px 0px;
+            color: white;
+            padding: 5px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .search:hover {
+            background-color:#747373;
+        }
+
+        .fa-search {
+            font-size: 16px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 20px 0;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #fff;
+            word-break: break-word;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .social-icons a {
+            margin-right: 15px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .footer .section-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .mar{
+            margin-left: 30px;
+        }
+
+        .old-price{
+            text-decoration: line-through;
+            color: #888;
+            margin-right: 8px;
+        }
+
+        .new-price{
+            font-weight: 700;
+            color: #000;
+            margin-right: 8px;
+        }
+
+        .discount{
+            color: #ff3f6c;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .navbar-brand-centered {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .search-wrapper {
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .icon-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Tablet + Mobile */
+        @media (max-width: 991.98px) {
+            .content {
+                padding-top: 70px;
+            }
+
+            .navbar {
+                padding: 8px 12px;
+            }
+
+            .navbar .container-fluid {
+                flex-wrap: wrap;
+                row-gap: 6px;
+                align-items: center;
+            }
+
+            .navbar-brand-centered {
+                position: static;
+                left: auto;
+                transform: none;
+                margin: 0;
+                order: 1;
+            }
+
+            .logo {
+                width: 85px;
+            }
+
+            .navbar-toggler {
+                order: 2;
+                margin-left: auto;
+                padding: 4px 8px;
+            }
+
+            .collapse.navbar-collapse {
+                order: 4;
+                width: 100%;
+                margin-top: 6px;
+            }
+
+            .navbar-nav {
+                text-align: center;
+            }
+
+            .nav-item.ms-2,
+            .nav-item.ms-3 {
+                margin-left: 0 !important;
+            }
+
+            .nav-link {
+                padding: 6px 0;
+                font-size: 15px;
+            }
+
+            .search-wrapper {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+                margin-top: 4px !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+
+            .form-inline {
+                width: 100%;
+            }
+
+            .search-input {
+                height: 34px;
+                font-size: 14px;
+                padding: 6px 10px;
+            }
+
+            .search {
+                height: 34px;
+                padding: 4px 12px;
+            }
+
+            .icon-nav {
+                width: 100%;
+                justify-content: center;
+                margin-top: 6px;
+                gap: 6px;
+            }
+
+            .mar {
+                margin-left: 0;
+            }
+
+            .footer .row > div {
+                text-align: center !important;
+            }
+        }
+
+        /* Small Mobile */
+        @media (max-width: 575.98px) {
+            .logo {
+                width: 75px;
+            }
+
+            .content {
+                padding-top: 65px;
+            }
+
+            .navbar {
+                padding: 6px 10px;
+            }
+
+            .navbar-toggler {
+                padding: 3px 7px;
+            }
+
+            .search-wrapper {
+                margin-top: 2px !important;
+            }
+
+            .search-input {
+                height: 32px;
+                font-size: 13px;
+                padding: 6px 10px;
+            }
+
+            .search {
+                height: 32px;
+                padding: 4px 10px;
+            }
+
+            .nav-link {
+                font-size: 14px;
+                padding: 5px 0;
+            }
+
+            .icon-nav {
+                margin-top: 4px;
+                gap: 4px;
+            }
+
+            .footer {
+                padding: 15px 10px;
+            }
+
+            .social-icons a {
+                margin-right: 10px;
+            }
+
+            .footer .section-title {
+                font-size: 14px;
+            }
+
+            .footer p,
+            .footer li,
+            .footer a {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -135,54 +353,64 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col">
-                    <!--start-->              
                     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
                         <div class="container-fluid d-flex align-items-center">
-                            <!--Centering the logo-->
-                            <a class="navbar-brand" style="position: absolute; left: 50%; transform: translateX(-50%);" href="#"><img src="{% static 'logo/BUlogo.png' %}" class="logo"></a>
+                            
+                            <a class="navbar-brand navbar-brand-centered" href="#">
+                                <img src="{% static 'logo/BUlogo.png' %}" class="logo">
+                            </a>
+
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                    <!--Home-->
                                     <li class="nav-item">
                                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                                     </li>
-                                    <!--Products-->
                                     <li class="nav-item ms-2">
                                         <a class="nav-link active" aria-current="page" href="{% url 'product' %}">Products</a>
                                     </li>
                                 </ul>
+
+                                <div class="search-wrapper mt-0 mt-lg-0 px-0">
+                                    <form class="form-inline d-flex" action="{% url 'search_products' %}" method="get">
+                                        <div class="input-group">
+                                            <input
+                                                name="q"
+                                                class="input search-input"
+                                                id="searchproducts"
+                                                type="text"
+                                                placeholder="Search products..."
+                                                value="{{ query|default:'' }}"
+                                                required
+                                            >
+                                        </div>
+                                        <button class="search" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <ul class="navbar-nav ms-lg-3 mb-2 mb-lg-0 icon-nav">
+                                    {% if user.is_authenticated %}
+                                        <li class="nav-item ms-3">
+                                            <a class="nav-link" href="{% url 'profile'%}"><i class="fa-regular fa-user"></i></a>
+                                        </li>
+                                        <li class="nav-item ms-3">
+                                            <a class="nav-link" href="{% url 'showcart' %}"><i class="fa-solid fa-cart-shopping"></i></a>
+                                        </li>
+                                    {% else %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
                             </div>
-                            <div class="mt-2 px-1">
-                                <form class="form-inline d-flex" action="" method="post">
-                                    {% csrf_token %}
-                                    <div class="input-group">
-                                        <input name="search" class="input search-input" id="searchproducts" type="text" placeholder="Search...">
-                                    </div>
-                                    <button class="search" type="submit">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                {% if user.is_authenticated %}
-                                    <li class="nav-item ms-3">
-                                        <a class="nav-link" href="{% url 'profile'%}"><i class="fa-regular fa-user"></i></a>
-                                    </li>
-                                    <li class="nav-item ms-3">
-                                        <a class="nav-link" href="{% url 'showcart' %}"><i class="fa-solid fa-cart-shopping"></i></a>
-                                    </li>
-                                    <!--<li class="nav-item">
-                                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                                    </li>-->
-                                {% else %}
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{% url 'register' %}">Register</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{% url 'login' %}">Login</a>
-                                    </li>
-                                {% endif %}
-                            </ul>
                         </div>
                     </nav>
                 </div>
@@ -195,76 +423,67 @@
         {% endblock %}
     </div>
 
-    <!-- Footer -->
     <footer class="bg-dark text-white py-4 mt-auto">
         <div class="container text-center">
             <div class="footer">
                 <div class="container">
-                  <div class="row text-center text-md-start">
-                    <!-- Logo -->
-                    <div class="col-md-3 mb-4">
-                        <a href="#">    
-                            <h5 class="section-title"><img src="{% static 'logo/BU2.png' %}" class="logo mar"></h5>
-                        </a>
-                        <!-- Signup and Social Icons -->
-                        <div class="row mt-4">
-                            <div class="mt-4 ">
-                              <div class="social-icons">
-                                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                                <a href="#"><i class="fa-brands fa-facebook"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                                <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                              </div>
+                    <div class="row text-center text-md-start">
+                        <div class="col-12 col-md-3 mb-4">
+                            <a href="#">    
+                                <h5 class="section-title"><img src="{% static 'logo/BU2.png' %}" class="logo mar"></h5>
+                            </a>
+
+                            <div class="row mt-4">
+                                <div class="mt-4">
+                                    <div class="social-icons">
+                                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                                        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
-                    </div>
+                        </div>
               
-                    <!-- Get to Know Us -->
-                    <div class="col-md-3 mb-4">
-                      <h5 class="section-title">GET TO KNOW US</h5>
-                      <ul class="list-unstyled">
-                        <li><a href="{% url 'contactus' %}">Contact Us</a></li>
-                        <li><a href="#">FAQ's</a></li>
-                        <li><a href="#">Blogs</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
-                      </ul>
-                    </div>
+                        <div class="col-12 col-md-3 mb-4">
+                            <h5 class="section-title">GET TO KNOW US</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="{% url 'contactus' %}">Contact Us</a></li>
+                                <li><a href="#">FAQ's</a></li>
+                                <li><a href="#">Blogs</a></li>
+                                <li><a href="#">Terms & Conditions</a></li>
+                            </ul>
+                        </div>
               
-                    <!-- Track or Return/Exchange Order -->
-                    <div class="col-md-3 mb-4">
-                      <h5 class="section-title">TRACK ORDER</h5>
-                      <ul class="list-unstyled">
-                        <li><a href="{% url 'track_order' %}">Track Order</a></li>
-                      </ul>
-                    </div>
+                        <div class="col-12 col-md-3 mb-4">
+                            <h5 class="section-title">TRACK ORDER</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="{% url 'track_order' %}">Track Order</a></li>
+                            </ul>
+                        </div>
               
-                    <!-- Customer Care -->
-                    <div class="col-md-3 mb-4">
-                      <h5 class="section-title">CUSTOMER CARE</h5>
-                      <ul class="list-unstyled">
-                        <li>Timings: 10 AM - 7 PM (Mon - Sat)</li>
-                        <li>Email: <a href="#">beyou@gmail.com</a></li>
-                        <li>Instagram: <a href="#">@beyou.co.in</a></li>
-                      </ul>
+                        <div class="col-12 col-md-3 mb-4">
+                            <h5 class="section-title">CUSTOMER CARE</h5>
+                            <ul class="list-unstyled">
+                                <li>Timings: 10 AM - 7 PM (Mon - Sat)</li>
+                                <li>Email: <a href="#">beyou@gmail.com</a></li>
+                                <li>Instagram: <a href="#">@beyou.co.in</a></li>
+                            </ul>
+                        </div>
                     </div>
-                  </div>
                   
-              
-                  <!-- Footer Bottom -->
-                  <div class="row mt-4">
-                    <div class="col text-center">
-                      <p>© 2024 BEYOU</p>
-                      <p>Made in India, for the World 🌍</p>
+                    <div class="row mt-4">
+                        <div class="col text-center">
+                            <p>© 2024 BEYOU</p>
+                            <p>Made in India, for the World 🌍</p>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
-            
+            </div>
         </div>
     </footer>
     
-    <!-- bootstrap script -->
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

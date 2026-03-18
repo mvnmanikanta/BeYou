@@ -8,100 +8,199 @@
     body {
         background-color: #fff;
     }
+
     .section-header {
         background-color: #000;
         padding: 50px 0;
         text-align: center;
     }
+
     .section-header h1 {
         font-size: 2.5rem;
         font-weight: bold;
         color: #fff;
+        margin-bottom: 15px;
     }
+
     .section-header p {
         font-size: 1rem;
         color: #fff;
+        margin-bottom: 0;
+        line-height: 1.6;
     }
+
     .about-images img {
         width: 100%;
         height: auto;
+        display: block;
     }
+
     .highlight-text {
         font-weight: bold;
         color: #333;
     }
+
     .icon-text-section .col-md-4 {
         text-align: center;
+        margin-bottom: 30px;
     }
+
     .icon-text-section i {
         font-size: 2rem;
         color: #f5b400;
     }
+
     .icon-text-section h5 {
         margin-top: 10px;
         font-weight: bold;
     }
+
+    .img-fluid {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    section {
+        overflow-x: hidden;
+    }
+
+    /* Tablet */
+    @media (max-width: 991.98px) {
+        .section-header {
+            padding: 40px 20px;
+        }
+
+        .section-header h1 {
+            font-size: 2rem;
+        }
+
+        .section-header p {
+            font-size: 0.95rem;
+        }
+
+        .py-5 {
+            padding-top: 3rem !important;
+            padding-bottom: 3rem !important;
+        }
+
+        .row.align-items-center > div {
+            margin-bottom: 20px;
+        }
+    }
+
+    /* Mobile */
+    @media (max-width: 767.98px) {
+        .section-header {
+            padding: 35px 15px;
+        }
+
+        .section-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .section-header p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            line-height: 1.4;
+        }
+
+        p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .icon-text-section .col-md-4 {
+            margin-bottom: 25px;
+        }
+    }
+
+    /* Small mobile */
+    @media (max-width: 575.98px) {
+        .section-header h1 {
+            font-size: 1.6rem;
+        }
+
+        .section-header p {
+            font-size: 0.85rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+        }
+
+        p {
+            font-size: 0.9rem;
+        }
+
+        .py-5 {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+        }
+    }
 </style>
-</head>
-<body>
 
 <!-- About Us Section -->
 <section class="section-header">
-<div class="container">
-    <h1>About Us</h1>
-    <p>We are a global family of brands and businesses.<br>
-    We make it possible for customers around the world to express themselves through fashion and design in a sustainable way.</p>
-</div>
+    <div class="container">
+        <h1>About Us</h1>
+        <p>We are a global family of brands and businesses.<br>
+        We make it possible for customers around the world to express themselves through fashion and design in a sustainable way.</p>
+    </div>
 </section>
 
 <!-- Content Section with Image -->
 <section class="py-5">
-<div class="container">
-    <div class="row align-items-center">
-        <div class="col-md-6">
-            <h2>Empowering Sustainable Fashion with Unique Style and Unbeatable Value</h2>
-            <p>Our brand and busines venture share the same passion for making great and more sustainable fashion and design available to everyone. Our brand has its own unique identity – all to offer our customers unbeatable value and to enable a more circular lifestyle.</p>
-        </div>
-        <div class="col-md-6">
-            <img src="{% static 'nc/about.jpg' %}" alt="Founder" class="img-fluid">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-6 mb-4 mb-md-0">
+                <h2>Empowering Sustainable Fashion with Unique Style and Unbeatable Value</h2>
+                <p>Our brand and busines venture share the same passion for making great and more sustainable fashion and design available to everyone. Our brand has its own unique identity – all to offer our customers unbeatable value and to enable a more circular lifestyle.</p>
+            </div>
+            <div class="col-12 col-md-6">
+                <img src="{% static 'nc/about.jpg' %}" alt="Founder" class="img-fluid">
+            </div>
         </div>
     </div>
-</div>
 </section>
 
 <!-- Small Business Empowerment Section -->
 <section class="py-5">
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <h2>This is our way</h2>
-            <p>We are committed to meeting all external regulations where we do business and to doing the right thing. Acting consistently and with a strong ethical compass is vital if BeYou is to continue being a trusted company and partner, a company that is valued by customers, respected by society, and for which we are all proud to work.
-
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <h2>This is our way</h2>
+                <p>We are committed to meeting all external regulations where we do business and to doing the right thing. Acting consistently and with a strong ethical compass is vital if BeYou is to continue being a trusted company and partner, a company that is valued by customers, respected by society, and for which we are all proud to work.</p>
+            </div>
         </div>
     </div>
-</div>
 </section>
 
 <!-- Icon with Text Section -->
 <section class="icon-text-section py-5">
-<div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <i class="bi bi-people"></i>
-            <h5>Our story</h5>
-            <p>We became a family of brand, offering fashion and design to customers worldwide.</p>
-        </div>
-        <div class="col-md-4">
-            <i class="bi bi-graph-up-arrow"></i>
-            <h5>Living our values</h5>
-            <p>At BeYou, we are guided by shared values. They are part of who we are, what we stand for and how we act.</p>
-        </div>
-        <div class="col-md-4">
-            <i class="bi bi-check-circle"></i>
-            <h5>Inclusion and diversity</h5>
-            <p>We are a value-driven company that wants to lead the way to a more inclusive and diverse fashion industry.</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <i class="bi bi-people"></i>
+                <h5>Our story</h5>
+                <p>We became a family of brand, offering fashion and design to customers worldwide.</p>
+            </div>
+            <div class="col-12 col-md-4">
+                <i class="bi bi-graph-up-arrow"></i>
+                <h5>Living our values</h5>
+                <p>At BeYou, we are guided by shared values. They are part of who we are, what we stand for and how we act.</p>
+            </div>
+            <div class="col-12 col-md-4">
+                <i class="bi bi-check-circle"></i>
+                <h5>Inclusion and diversity</h5>
+                <p>We are a value-driven company that wants to lead the way to a more inclusive and diverse fashion industry.</p>
+            </div>
         </div>
     </div>
-</div>
 </section>
+
 {% endblock %}

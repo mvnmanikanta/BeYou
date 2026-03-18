@@ -1,0 +1,115 @@
+{% extends 'theme.html' %}
+{% block title %}Verify OTP{% endblock %}
+{% block main %}
+
+<style>
+    .otp-wrapper {
+        min-height: 70vh;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .otp-box {
+        width: 100%;
+        max-width: 500px;
+        margin-bottom: 3rem;
+    }
+
+    .otp-form {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    @media (max-width: 991.98px) {
+        .otp-wrapper {
+            margin-top: 2rem !important;
+        }
+
+        .otp-box h2 {
+            margin-bottom: 2rem !important;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .otp-wrapper {
+            min-height: auto;
+            margin-top: 1.5rem !important;
+        }
+
+        .otp-box {
+            max-width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .otp-box h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.75rem !important;
+        }
+
+        .form-label,
+        .form-control,
+        .btn,
+        .alert {
+            font-size: 0.95rem;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .otp-box h2 {
+            font-size: 1.5rem;
+        }
+
+        .form-control {
+            padding-top: 0.65rem;
+            padding-bottom: 0.65rem;
+        }
+
+        .btn {
+            padding-top: 0.65rem;
+            padding-bottom: 0.65rem;
+        }
+
+        .form-label,
+        .form-control,
+        .btn,
+        .alert {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center mt-5 otp-wrapper">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-5 otp-box">
+        <h2 class="text-center mb-4">Verify OTP</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" class="otp-form">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="otp" class="form-label">Enter OTP</label>
+                <input
+                    type="text"
+                    class="form-control text-center"
+                    id="otp"
+                    name="otp"
+                    maxlength="6"
+                    pattern="[0-9]{6}"
+                    inputmode="numeric"
+                    placeholder="Enter 6-digit OTP"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="btn btn-dark w-100">Verify OTP</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

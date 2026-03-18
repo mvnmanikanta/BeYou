@@ -7,27 +7,114 @@
     .login{
         text-decoration: none;
     }
+
+    .register-wrapper {
+        min-height: 70vh;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .register-box {
+        width: 100%;
+        max-width: 500px;
+        margin-bottom: 3rem;
+    }
+
+    .register-form {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    @media (max-width: 991.98px) {
+        .register-wrapper {
+            margin-top: 2rem !important;
+        }
+
+        .register-box h2 {
+            margin-bottom: 2rem !important;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .register-wrapper {
+            min-height: auto;
+            margin-top: 1.5rem !important;
+        }
+
+        .register-box {
+            max-width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .register-box h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.75rem !important;
+        }
+
+        .input-group-text,
+        .form-control,
+        .btn {
+            font-size: 0.95rem;
+        }
+
+        .register-footer p {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .register-box h2 {
+            font-size: 1.5rem;
+        }
+
+        .input-group-text,
+        .form-control {
+            padding-top: 0.65rem;
+            padding-bottom: 0.65rem;
+        }
+
+        .btn {
+            padding-top: 0.65rem;
+            padding-bottom: 0.65rem;
+        }
+
+        .register-footer p {
+            font-size: 0.9rem;
+        }
+    }
 </style>
-<div class="container d-flex justify-content-center mt-5">
-    <div class="col-md-4 mb-5">
+
+<div class="container d-flex justify-content-center align-items-center mt-5 register-wrapper">
+    <div class="col-12 col-sm-10 col-md-6 col-lg-4 mb-5 register-box">
         <h2 class="text-center mb-5">Create Account</h2>
-        <form action="{% url 'register' %}" method="post" style="max-width: 500px; margin-bottom: 38px;">
+
+        <form action="{% url 'register' %}" method="post" class="register-form">
             {% csrf_token %}
+
             {% for message in messages %}
             <div class="alert alert-info">{{ message }}</div>
             {% endfor %}
-
+            <div class="mb-4">
+    <div class="input-group">
+        <span class="input-group-text">
+            <i class="fas fa-user"></i>
+        </span>
+        <input
+            type="text"
+            name="name"
+            id="name"
+            class="form-control"
+            placeholder="Enter your name"
+            required
+        >
+    </div>
+</div>
             <div class="mb-4">
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    <input type="text" name="username" id="username" class="form-control" placeholder="Enter your username" required>
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" required>
+                    <input type="text" name="phonenumber" id="phonenumber" class="form-control" placeholder="Enter your phone number" required>
                 </div>
             </div>
 
@@ -46,7 +133,8 @@
             </div>
 
             <button type="submit" class="btn btn-dark w-100">Create</button>
-            <div class="mt-2">
+
+            <div class="mt-2 register-footer">
                 <p>I have an account <a href="{% url 'login' %}" class="login">Login</a></p>
             </div>
         </form>

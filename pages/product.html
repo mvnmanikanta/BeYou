@@ -1,11 +1,106 @@
 {% extends  'theme.html' %}
 {% block title %}Products{% endblock title %}
 {% load static %}
-{%block main%}
+{% block main %}
 
-<!--dropdown-->
-<div class="py-2" style="background-color: #fff; width: 100%; position: fixed;">
-  <div class="dropdown mt-3">
+<style>
+  .product-filter-bar {
+    background-color: #fff;
+    width: 100%;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    z-index: 1030;
+    padding: 6px 0;
+  }
+
+  .product-page-wrapper {
+    padding-top: 45px;
+  }
+
+  .product-thumb img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .product-body {
+    text-align: left;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    word-break: break-word;
+  }
+
+  .card-text {
+    line-height: 1.6;
+    word-break: break-word;
+  }
+
+  @media (max-width: 991.98px) {
+    .product-filter-bar {
+      top: 80px;
+    }
+
+    .product-page-wrapper {
+      padding-top: 60px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .product-filter-bar {
+      top: 85px;
+      padding: 6px 0;
+    }
+
+    .product-page-wrapper {
+      padding-top: 65px;
+    }
+
+    .dropdown-toggle {
+      font-size: 0.95rem;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+    }
+
+    .card-text {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    .product-filter-bar {
+      top: 70px;
+      padding: 6px 0;
+    }
+
+    .product-page-wrapper {
+      padding-top: 5px;
+    }
+
+    .dropdown-toggle {
+      font-size: 0.9rem;
+      margin-left: 10px !important;
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+    }
+
+    .card-text {
+      font-size: 0.85rem;
+    }
+  }
+</style>
+
+<!-- dropdown -->
+<div class="py-2 product-filter-bar">
+  <div class="dropdown">
     <button class="dropdown-toggle" style="background:none; border: none; margin-left: 15px;" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
       categories
     </button>
@@ -17,28 +112,35 @@
     </ul>
   </div>
 </div>
-<!--Products-->
-<div class="container mt-5">
+
+<!-- Products -->
+<div class="container product-page-wrapper">
   <div class="row">
-<!-- Inside product.html or similar template -->
-{% for j in products %}
-<div class="col-md-3 col-sm-6 col-xs-6 mb-5">
-    <div class="product product-single">
+    {% for j in products %}
+    <div class="col-6 col-md-3 mb-5">
+      <div class="product product-single">
         <a href="{% url 'productdetail' j.id %}">
-            <div class="product-thumb">
-                <img src="{{ j.image.url }}" class="card-img-top" alt="{{ j.name }}">
-            </div>
+          <div class="product-thumb">
+            <img src="{{ j.image.url }}" class="card-img-top img-fluid" alt="{{ j.name }}">
+          </div>
         </a>
         <div class="product-body">
-            <h5 class="card-title mt-2">{{ j.name }}</h5>
-            <p class="card-text mt-2">₹ {{ j.price }}</p>
+          <h5 class="card-title mt-2">{{ j.name }}</h5>
+
+          <p class="card-text mt-2">
+            {% if j.original_price %}
+              <span class="old-price">₹{{ j.original_price }}</span>
+              <span class="new-price">₹{{ j.price }}</span>
+              <span class="discount">({{ j.discount_percentage }}% OFF)</span>
+            {% else %}
+              <span class="new-price">₹{{ j.price }}</span>
+            {% endif %}
+          </p>
         </div>
+      </div>
     </div>
-</div>
-{% endfor %}
-
-    </div>
+    {% endfor %}
   </div>
-</div>    
+</div>
 
-{%endblock%}
+{% endblock %}

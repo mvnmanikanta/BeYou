@@ -2,120 +2,255 @@
 {% load static %}
 {% block title %}Profile{% endblock title %}
 {% block main %}
-<head>
- <style>
-        .profilename{
-            display: flex;
-            align-items: center;
-        }
-        .profile-image {
-    width: 100px; /* Circular container width */
-    height: 100px; /* Circular container height */
-    border-radius: 50%; /* Make the container a circle */
-    overflow: hidden; /* Clip overflow content */
-    display: flex; /* Center content horizontally */
-    justify-content: center;
-    align-items: center; /* Center content vertically */
-    margin: 10px;
-    margin-right: 20px;
-    cursor: pointer; /* Indicate clickability */
-}
 
-.profile-image img {
-    width: 100%; /* Fill the container */
-    height: 100%; /* Fill the container */
-    object-fit: cover; /* Ensure the image covers the circle */
-    border-radius: 50%; /* Ensure the image itself is circular */
-}
+<style>
+    .sidebar {
+        min-height: 100vh;
+        background-color: #f8f9fb;
+        padding: 30px 20px;
+        border-right: 1px solid #dee2e6;
+    }
 
+    .sidebar-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .profile-header {
+        margin-bottom: 20px;
+    }
+
+    #profile-name {
+        margin: 0;
+        font-size: 1.1rem;
+        line-height: 1.5;
+        word-break: break-word;
+    }
+
+    .ucolor {
+        color: orange;
+        margin-left: 5px;
+    }
+
+    .sidetext .nav {
+        gap: 8px;
+    }
+
+    .sidebar .nav-item {
+        width: 100%;
+    }
+
+    .sidebar .nav-link {
+        display: flex;
+        align-items: center;
+        color: #000000;
+        word-break: break-word;
+        padding: 12px 14px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        font-size: 0.98rem;
+        text-decoration: none;
+    }
+
+    .sidebar .nav-link:hover {
+        background-color: #000000;
+        color: #ffffff;
+    }
+
+    .sidebar .nav-link:focus {
+        background-color: #000000;
+        color: #ffffff;
+    }
+
+    .nav-link i {
+        width: 22px;
+        margin-right: 12px;
+        text-align: center;
+        flex-shrink: 0;
+    }
+
+    .profile-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 70vh;
+        text-align: center;
+        padding: 30px 20px;
+    }
+
+    .profile-content-inner {
+        width: 100%;
+        max-width: 700px;
+    }
+
+    .profile-content h2 {
+        margin-bottom: 10px;
+    }
+
+    .profile-content p {
+        margin-bottom: 0;
+        color: #555;
+    }
+
+    @media (max-width: 991.98px) {
         .sidebar {
-            height: 100vh;
-            background-color: #f8f9fb; /* Light gray background */
-            padding-top: 30px;
-            border-right: 1px solid #dee2e6; /* Border color */
-        }
-        
-        .sidebar .nav-link {
-            color: #000000; /* Dark gray text color */
+            min-height: auto;
+            padding: 25px 20px;
+            border-right: none;
+            border-bottom: 1px solid #dee2e6;
         }
 
-        .sidebar .nav-link:hover {
-            background-color: #000000; /* Darker gray on hover */
-            border-radius: 5px;
-            color: white;
+        .sidebar-title {
+            text-align: center;
         }
 
-        .sidebar .nav-link:active {
-            background-color: #000000; /* Lighter gray on active */
+        .profile-header {
+            text-align: center;
         }
-        .nav-link i{
-            margin-right: 15px;
+
+        #profile-name {
+            text-align: center;
         }
-        .col-md-9{
-            display: flex;
+
+        .sidetext .nav {
             align-items: center;
-            justify-content: center;
         }
-    </style>
-</head>
 
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 sidebar">
-                <p>Profile</p>
-                <hr>
-                <div class="profilename">
-                    <div class="profile-image">
-                        <label for="profile_image_input">
-                            {% if profile.profile_image %}
-                            <img id="profile_preview" src="{{ profile.profile_image.url }}" alt="Profile Image">
-                            {% else %}
-                            <img id="profile_preview" src="{% static 'default_profile.png' %}" alt="Default Profile Image">
-                            {% endif %}
-                        </label>
-                        <!-- Hidden file input for image upload -->
-                        <input 
-                            type="file" 
-                            id="profile_image_input" 
-                            name="profile_image" 
-                            accept="image/*" 
-                            style="display: none;" 
-                            onchange="previewImage(event)">
-                    </div>
-                    
-                    <h5 id="profile-name">{{user.username}}</h5>
-                </div>
-                <div class="sidetext">
+        .sidebar .nav-item {
+            max-width: 420px;
+        }
+
+        .profile-content {
+            min-height: auto;
+            padding: 30px 20px;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .sidebar {
+            padding: 20px 15px;
+        }
+
+        .sidebar-title {
+            font-size: 1rem;
+        }
+
+        #profile-name {
+            font-size: 1rem;
+        }
+
+        .sidebar .nav-link {
+            font-size: 0.95rem;
+            padding: 11px 12px;
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+        }
+
+        .profile-content {
+            padding: 25px 15px;
+        }
+
+        .profile-content h2 {
+            font-size: 1.5rem;
+        }
+
+        .profile-content p {
+            font-size: 0.95rem;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .sidebar {
+            padding: 18px 12px;
+        }
+
+        #profile-name {
+            font-size: 0.98rem;
+        }
+
+        .sidebar .nav-item {
+            max-width: 100%;
+        }
+
+        .sidebar .nav-link {
+            font-size: 0.92rem;
+        }
+
+        .profile-content h2 {
+            font-size: 1.3rem;
+        }
+
+        .profile-content p {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-3 sidebar">
+            <p class="sidebar-title">Profile</p>
+            <hr>
+
+            <div class="profile-header">
+                <h5 id="profile-name">
+                    <strong>User Name:</strong>
+                    <span class="ucolor">{{ request.user.first_name }}</span>
+                </h5>
+            </div>
+
+            <div class="sidetext">
                 <ul class="nav flex-column mt-3">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'userprofile' %}" id="my-profile"><i class="fa-solid fa-user"></i> My Profile</a>
+                        <a class="nav-link" href="{% url 'userprofile' %}" id="my-profile">
+                            <i class="fa-solid fa-user"></i>
+                            <span>My Profile</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'myorders' %}" id="my-orders"><i class="fa-solid fa-box-open"></i>My Orders</a>
+                        <a class="nav-link" href="{% url 'myorders' %}" id="my-orders">
+                            <i class="fa-solid fa-box-open"></i>
+                            <span>My Orders</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contactus' %}" id="contact-us"><i class="fa-solid fa-phone"></i> contact Us</a>
+                        <a class="nav-link" href="{% url 'contactus' %}" id="contact-us">
+                            <i class="fa-solid fa-phone"></i>
+                            <span>Contact Us</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'aboutus' %}" id="about-beyou"><i class="fa fa-info-circle"></i> About BeYou</a>
+                        <a class="nav-link" href="{% url 'track_order' %}" id="track-order">
+                            <i class="fas fa-shipping-fast"></i>
+                            <span>Track Order</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}" id="logout"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+                        <a class="nav-link" href="{% url 'aboutus' %}" id="about-beyou">
+                            <i class="fa fa-info-circle"></i>
+                            <span>About BeYou</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}" id="logout">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span>Log Out</span>
+                        </a>
                     </li>
                 </ul>
             </div>
-            </div>
+        </div>
 
-            <!-- Content Area -->
-            <div class="col-md-9 mt-3">
-                <div id="content-area">
-                    <h2>Welcome to Be You.</h2>
-                    <p>Purchase your favourite collections.</p>
-                </div>
+        <div class="col-12 col-md-9 profile-content">
+            <div id="content-area" class="profile-content-inner">
+                <h2>Welcome to Be You.</h2>
+                <p>Purchase your favourite collections.</p>
             </div>
         </div>
     </div>
-</body>
+</div>
+
 {% endblock %}

@@ -3,12 +3,114 @@
 {% block title %}Home{% endblock title %}
 
 {% block main %}
+
+<style>
+  .home-carousel img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .home-section-title h3 {
+    font-size: 2rem;
+  }
+
+  .product-card-wrapper {
+    margin-bottom: 30px;
+  }
+
+  .product-thumb img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .product-card-content {
+    text-align: left;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    word-break: break-word;
+  }
+
+  .card-text {
+    line-height: 1.6;
+    word-break: break-word;
+  }
+
+  .carousel-caption h5 {
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 991.98px) {
+    .home-section-title h3 {
+      font-size: 1.75rem;
+    }
+
+    .carousel-caption h5 {
+      font-size: 1.2rem;
+    }
+
+    .product-card-wrapper {
+      margin-bottom: 25px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .home-section-title h3 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem !important;
+    }
+
+    .carousel-caption {
+      padding-bottom: 10px;
+    }
+
+    .carousel-caption h5 {
+      font-size: 1rem;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+    }
+
+    .card-text {
+      font-size: 0.9rem;
+    }
+
+    .product-card-wrapper {
+      margin-bottom: 20px;
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    .home-section-title h3 {
+      font-size: 1.3rem;
+    }
+
+    .carousel-caption {
+      display: none !important;
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+    }
+
+    .card-text {
+      font-size: 0.85rem;
+    }
+  }
+</style>
+
 <!-- Carousel (Image Slider) -->
-<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+<div id="heroCarousel" class="carousel slide home-carousel" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
       <a href="{% url 'product' %}">
-        <img src="{% static 'banner/banner3.png' %}" class="d-block w-100" alt="banner">
+        <img src="{% static 'banner/banner3.png' %}" class="d-block w-100 img-fluid" alt="banner">
       </a>
       <div class="carousel-caption d-none d-md-block">
         <h5>All Set to Reset</h5>
@@ -16,12 +118,12 @@
     </div>
     <div class="carousel-item">
       <a href="{% url 'product' %}">
-        <img src="{% static 'banner/banner2.png' %}" class="d-block w-100" alt="banner">
+        <img src="{% static 'banner/banner2.png' %}" class="d-block w-100 img-fluid" alt="banner">
       </a>
     </div>
     <div class="carousel-item">
       <a href="{% url 'product' %}">
-        <img src="{% static 'banner/banner1.png' %}" class="d-block w-100" alt="banner">
+        <img src="{% static 'banner/banner1.png' %}" class="d-block w-100 img-fluid" alt="banner">
       </a>
     </div>
   </div>
@@ -35,55 +137,76 @@
   </button>
 </div>
 
-  <!-- New drop Products Section -->
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-22">
-        <div class="section-title">
-          <h3 class="text-center mb-5">New Drops</h3>
-        </div>
-      </div>
-      {% for j in products_newdrops %}
-      <div class="col-md-3 col-sm-6 col-xs-6">
-        <div class="product product-single">
-          <a href="{% url 'productdetail' j.id %}">
-            <div class="product-thumb">
-              <img src="{{j.image.url}}" class="card-img-top" alt="">
-            </div>
-          </a>
-          <div class="product-body"></div>
-            <h5 class="card-title mt-2">{{j.name}}</h5>
-            <p class="card-text mt-2">₹ {{j.price}}</p>
-          </div>
-        </div>
-        {% endfor %}
+<!-- New drop Products Section -->
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <div class="section-title home-section-title">
+        <h3 class="text-center mb-5">New Drops</h3>
       </div>
     </div>
-  </div>    
-  
+
+    {% for j in products_newdrops %}
+    <div class="col-6 col-md-3 product-card-wrapper">
+      <div class="product product-single">
+        <a href="{% url 'productdetail' j.id %}">
+          <div class="product-thumb">
+            <img src="{{j.image.url}}" class="card-img-top img-fluid" alt="">
+          </div>
+        </a>
+        <div class="product-body product-card-content">
+          <h5 class="card-title mt-2">{{ j.name }}</h5>
+
+          <p class="card-text mt-2">
+            {% if j.original_price %}
+              <span class="new-price">₹{{ j.price }}</span>
+              <span class="old-price">₹{{ j.original_price }}</span>
+              <span class="discount">({{ j.discount_percentage }}% OFF)</span>
+            {% else %}
+              <span class="new-price">₹{{ j.price }}</span>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
 
 <!-- Seasonal Favs Section -->
 <div class="container mt-5">
   <div class="row">
-    <div class="col-md-22">
-      <div class="section-title">
+    <div class="col-12">
+      <div class="section-title home-section-title">
         <h3 class="text-center mb-5">Seasonal Choices</h3>
       </div>
     </div>
+
     {% for j in products_sesion %}
-    <div class="col-md-3 col-sm-6 col-xs-6 mb-5">
+    <div class="col-6 col-md-3 mb-5 product-card-wrapper">
       <div class="product product-single">
         <a href="{% url 'productdetail' j.id %}">
           <div class="product-thumb">
-            <img src="{{j.image.url}}" class="card-img-top" alt="">
+            <img src="{{j.image.url}}" class="card-img-top img-fluid" alt="">
           </div>
         </a>
-        <div class="product-body"></div>
-          <h5 class="card-title mt-2">{{j.name}}</h5>
+        <div class="product-body product-card-content">
+          <h5 class="card-title mt-2">{{ j.name }}</h5>
+
+          <p class="card-text mt-2">
+            {% if j.original_price %}
+              <span class="new-price">₹{{ j.price }}</span>
+              <span class="old-price">₹{{ j.original_price }}</span>
+              <span class="discount">({{ j.discount_percentage }}% OFF)</span>
+            {% else %}
+              <span class="new-price">₹{{ j.price }}</span>
+            {% endif %}
+          </p>
         </div>
       </div>
-      {% endfor %}
     </div>
+    {% endfor %}
   </div>
-</div>   
+</div>
+
 {% endblock %}

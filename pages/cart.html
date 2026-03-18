@@ -2,54 +2,204 @@
 {% block title %}Shopping Cart{% endblock %}
 {% load static %}
 {% block main %}
-<div class="container mt-5" style="max-width: 1000px;">
-    <h2 class="mb-4">Shopping Cart</h2>
 
-    <div class="row">
-        <div class="col-md-8">
-            <ul class="list-group mb-3">
-                {% for item in cart_items %}
-                <li class="list-group-item d-flex justify-content-between align-items-center me-3">
-                    <div class="d-flex align-items-center">
-                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-thumbnail" style="width: 60px; height: 75px; margin-right: 15px;">
-                        <div>
-                            <h5 class="mb-1">{{ item.product.name }}</h5>
-                            <p class="mb-1">₹{{ item.product.price }}</p>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <div class="input-group me-3" style="max-width: 150px;">
-                            <a href="{% url 'inc_quantity' item.product.id %}" class="btn btn-outline-secondary">+</a>
-                            <input type="text" class="form-control text-center" value="{{ item.quantity }}" readonly>
-                            <a href="{% url 'dec_quantity' item.product.id %}" class="btn btn-outline-secondary">-</a>
-                        </div>
-                        <span class="fw-bold ms-3">₹{{ item.total_cost }}</span>
-                        <!-- Remove from cart -->
-                        <form action="{% url 'remove_cart' item.product.id %}" method="post" class="ms-3">
-                            {% csrf_token %}
-                            <button type="submit" style="border: none; background: none; color: red; font-weight: bold;">x</button>
-                        </form>
-                    </div>
-                </li>
-                {% empty %}
-                <li class="list-group-item text-center">Your cart is empty.</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <!-- Display Total and Place Order Button -->
-        <div class="col-md-4">
-            <div class="card-body">
-                {% if cart_items %}
-                <div class="d-flex justify-content-between mb-4">
-                    <h5 class="mb-0">Total Amount:</h5>
-                    <h5 class="mb-0">₹{{ amount }}</h5>
-                </div>
-                <a class="btn btn-primary w-100" style="background-color: #000; border: none;" href="{% url 'checkout' %}">PLACE ORDER</a>
-                {% else %}
-                <a class="btn btn-secondary w-100" style="background-color: #ccc; border: none;" disabled>PLACE ORDER</a>
-                {% endif %}
+<style>
+  @media (max-width: 991.98px) {
+    .cart-item {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+    }
+
+    .cart-item-right {
+      width: 100%;
+      margin-top: 15px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .cart-qty-group {
+      max-width: 160px !important;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .shopping-cart-container {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    .cart-item-left {
+      width: 100%;
+      align-items: flex-start !important;
+    }
+
+    .cart-item-left img {
+      width: 55px !important;
+      height: 70px !important;
+      margin-right: 12px !important;
+    }
+
+    .cart-item-left h5 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .cart-item-left p {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .cart-item-right {
+      flex-direction: column;
+      align-items: flex-start !important;
+      width: 100%;
+    }
+
+    .cart-qty-group {
+      width: 100%;
+      max-width: 140px !important;
+      margin-right: 0 !important;
+    }
+
+    .cart-total {
+      margin-left: 0 !important;
+      margin-top: 8px;
+      font-size: 1rem;
+    }
+
+    .cart-remove-form {
+      margin-left: 0 !important;
+      margin-top: 5px;
+    }
+
+    .cart-summary {
+      margin-top: 20px;
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    .shopping-cart-container {
+      margin-top: 20px !important;
+    }
+
+    .shopping-cart-title {
+      font-size: 1.5rem;
+    }
+
+    .cart-item {
+      padding: 12px;
+    }
+
+    .cart-item-left img {
+      width: 50px !important;
+      height: 65px !important;
+    }
+
+    .cart-item-left h5 {
+      font-size: 0.95rem;
+    }
+
+    .cart-item-left p {
+      font-size: 0.85rem;
+    }
+
+    .summary-row h5 {
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<div class="container mt-5 shopping-cart-container" style="max-width: 1000px;">
+  <h2 class="mb-4 shopping-cart-title">Shopping Cart</h2>
+
+  <div class="row">
+    <div class="col-12 col-md-8">
+      <ul class="list-group mb-3">
+        {% for item in cart_items %}
+        <li class="list-group-item d-flex justify-content-between align-items-center me-md-3 cart-item">
+          
+          <div class="d-flex align-items-center cart-item-left">
+            {% if item.product.image %}
+              <img src="{{ item.product.image.url }}"
+                   alt="{{ item.product.name }}"
+                   class="img-thumbnail"
+                   loading="lazy"
+                   style="width: 60px; height: 75px; margin-right: 15px;">
+            {% else %}
+              <img src="{% static 'img/placeholder.png' %}"
+                   alt="{{ item.product.name }}"
+                   class="img-thumbnail"
+                   loading="lazy"
+                   style="width: 60px; height: 75px; margin-right: 15px;">
+            {% endif %}
+
+            <div>
+              <h5 class="mb-1">{{ item.product.name }}</h5>
+
+              <p class="mb-1">₹{{ item.product.price }}</p>
+
+              <p class="mb-1">Size : {{ item.size }}</p>
             </div>
-        </div>
+          </div>
+
+          <div class="d-flex align-items-center cart-item-right">
+            <div class="input-group me-3 cart-qty-group" style="max-width: 180px;">
+              <a href="{% url 'inc_quantity' item.id %}"
+                 class="btn btn-outline-secondary"
+                 aria-label="Increase quantity">+</a>
+
+              <input type="text"
+                     class="form-control text-center"
+                     value="{{ item.quantity }}"
+                     readonly
+                     aria-label="Item quantity">
+
+              <a href="{% url 'dec_quantity' item.id %}"
+                 class="btn btn-outline-secondary"
+                 aria-label="Decrease quantity">-</a>
+            </div>
+
+            <span class="fw-bold ms-3 cart-total">₹{{ item.total_cost }}</span>
+
+            <form action="{% url 'remove_cart' item.id %}" method="post" class="ms-3 cart-remove-form">
+              {% csrf_token %}
+              <button type="submit"
+                      title="Remove item"
+                      aria-label="Remove item"
+                      style="border: none; background: none; color: red; font-weight: bold;">
+                ×
+              </button>
+            </form>
+          </div>
+        </li>
+        {% empty %}
+        <li class="list-group-item text-center">Your cart is empty.</li>
+        {% endfor %}
+      </ul>
     </div>
+
+    <!-- Display Total and Place Order Button -->
+    <div class="col-12 col-md-4 cart-summary">
+      <div class="card">
+        <div class="card-body">
+          {% if cart_items %}
+            <div class="d-flex justify-content-between mb-4 summary-row">
+              <h5 class="mb-0">Total Amount:</h5>
+              <h5 class="mb-0">₹{{ amount }}</h5>
+            </div>
+            <a class="btn btn-primary w-100" style="background-color: #000; border: none;" href="{% url 'checkout' %}">
+              PLACE ORDER
+            </a>
+          {% else %}
+            <a class="btn btn-secondary w-100" style="background-color: #ccc; border: none;" disabled>
+              PLACE ORDER
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 {% endblock %}
