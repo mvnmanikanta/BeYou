@@ -1,6 +1,6 @@
 # BeYou
 
-BeYou is a Django e-commerce project with account login, product browsing, cart management, checkout, order tracking, and profile image uploads.
+BeYou is a Django e-commerce project with account login, product browsing, cart management, checkout, order tracking.
 
 ## Requirements
 
